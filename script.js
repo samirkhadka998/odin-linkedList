@@ -19,6 +19,9 @@ let ls = new LinkedList(10);
 
 //Append to last 
 append(20);
+append(21);
+append(22);
+append(23);
 
 //Prepend to first
 prepend(0);
@@ -34,6 +37,7 @@ prepend(0);
 atIndex(1);
 
 //pop remaining
+pop();
 
 //contains(value)
 valueExist(0);
@@ -47,6 +51,9 @@ toString();
 
 //Insert at 
 insertAt(55, 3)
+
+//Remove at index
+RemoveAtIndex(1, ls.head, 0);
 
 
 
@@ -164,9 +171,9 @@ function insertAt(value, index) {
         }
         else{
             insertNodeByIndex(ls.head, value, index, 0);
+            ls.length++;
         }
-        ls.length++;
-        console.log(toString());
+        toString();
     }
     else{
         console.log("invalid index");
@@ -179,6 +186,28 @@ function insertNodeByIndex(node , value , index , customIndex){
         let newNode = new Node(value);
         newNode.nextNode = node.nextNode;
         node.nextNode = newNode;
+        return;
     }
     return insertNodeByIndex(node.nextNode, value, index , ++customIndex);
+}
+
+function pop() {
+    toString();
+    RemoveAtIndex(ls.length -1 , ls.head, 0);
+    toString();
+}
+
+function RemoveAtIndex(index, node , customIndex){
+    if(customIndex + 1 == index){
+        nodeAfterIndex = node.nextNode?.nextNode ?? null;
+        if(nodeAfterIndex == null){
+            ls.tail = node;
+        }
+        node.nextNode = nodeAfterIndex;
+        ls.length--;
+        return;
+    }
+
+    customIndex++;
+    return RemoveAtIndex(index, node.nextNode, customIndex);
 }
