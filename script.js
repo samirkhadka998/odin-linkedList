@@ -45,16 +45,26 @@ console.log(findIndex(0, 20, ls.head));
 //toString
 toString();
 
-
+//Insert at 
+insertAt(55, 3)
 
 
 
 
 function append(value) {
     let newNode = new Node(value);
-    ls.head.nextNode = newNode;
+    appendToLast(ls.head, newNode)
     ls.tail = newNode;
     ls.length++;
+}
+
+function appendToLast(node, newNode) {
+    if(node.nextNode == null){
+        node.nextNode = newNode
+        return;
+    }
+
+    appendToLast(node.nextNode, newNode);
 }
 
 function prepend(value) {
@@ -142,4 +152,33 @@ function toString(){
 function concatinateValues(node){
     if(!node) return ' -> null';
     return ' -> ' + node.prop + concatinateValues(node.nextNode);
+}
+
+function insertAt(value, index) {
+    if(index >= 0 & index <= ls.length){
+        if(index === 0){
+            prepend(value);
+        }
+        else if(index === ls.length){
+            append(value);
+        }
+        else{
+            insertNodeByIndex(ls.head, value, index, 0);
+        }
+        ls.length++;
+        console.log(toString());
+    }
+    else{
+        console.log("invalid index");
+    }
+}
+
+function insertNodeByIndex(node , value , index , customIndex){
+    //we know to change next item position
+    if(customIndex + 1 === index){
+        let newNode = new Node(value);
+        newNode.nextNode = node.nextNode;
+        node.nextNode = newNode;
+    }
+    return insertNodeByIndex(node.nextNode, value, index , ++customIndex);
 }
